@@ -3,19 +3,12 @@ use std::{env, path::Path};
 use cmake::Config;
 
 fn main() {
-    const LLAMA_CMAKE_PATH: &str = "llama.cpp/CMakeLists.txt";
-
-    assert!(
-        Path::new(LLAMA_CMAKE_PATH).exists(),
-        "Please init submodules with `git submodule update --init --recursive` and try again"
-    );
-
     println!("cargo:rerun-if-changed=include/engine.h");
     println!("cargo:rerun-if-changed=src/engine.cc");
+    println!("cargo:rustc-link-search=native={}", env::var("LLAMA_CPP_LIB").unwrap());
     println!("cargo:rustc-link-lib=llama");
-    println!("cargo:rustc-link-lib=ggml_static");
+    println!("cargo:rustc-link-lib=ggml_shared");
 
-    build_llama_cpp();
     build_cxx_binding();
 }
 
