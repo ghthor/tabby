@@ -8,6 +8,8 @@ fn main() {
         return;
     }
 
+    return;
+
     let mut config = Config::new("./llama.cpp");
     config.profile("Release");
     config.define("LLAMA_NATIVE", "OFF");
